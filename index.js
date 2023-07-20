@@ -1,6 +1,11 @@
-import productos from "./js/productos.js";
+// import productos from "./js/productos.js";
 import agregarAlCarrito from "./carrito.js";
 
+const products = [];
+const URL = "/productos.json";
+
+
+ 
 // Función para generar el código HTML de la Card
 function retornarCardHTML(producto) {
   return `
@@ -20,15 +25,6 @@ function retornarCardHTML(producto) {
     `;
 }
 
-// Función para cargar los productos en el contenedor
-function cargarProductos(array) {
-  const container = document.querySelector(".container");
-  container.innerHTML = "";
-  array.forEach((producto) => {
-    const cardHTML = retornarCardHTML(producto);
-    container.innerHTML += cardHTML;
-  });
-}
 
 function activarClickEnBotones() {
   const botonesAgregar = document.querySelectorAll(
@@ -37,14 +33,40 @@ function activarClickEnBotones() {
   if (botonesAgregar !== null) {
     for (const boton of botonesAgregar) {
       boton.addEventListener("click", (event) => {
-        agregarAlCarrito(event.target.id);
+        agregarAlCarrito(event.target.id,products);
+      
       });
     }
   }
 }
+// Función para cargar los productos en el contenedor
+function cargarProductos(array) {
+  const container = document.querySelector(".container");
+  container.innerHTML = "";
+  array.forEach((producto) => {
+    const cardHTML = retornarCardHTML(producto);
+    container.innerHTML += cardHTML;
+  });
+  activarClickEnBotones();
+}
+
 
 // Llamada inicial para cargar los productos
-cargarProductos(productos);
+ 
+function obtenerProductos(){
+
+  fetch(URL).then(async (response)=>{
+  
+  const data = await response.json()
+  products.push(...data)
+  cargarProductos(products)
+})
+
+}
+
+obtenerProductos()
 
 // Llamada para activar el evento click en los botones
-activarClickEnBotones();
+
+
+ 

@@ -1,5 +1,4 @@
-import productos from "./js/productos.js";
-
+ 
 const almacenarCarrito = () => {
   if (carritoFrutas.length > 0) {
     localStorage.setItem("carritoFrutas", JSON.stringify(carritoFrutas));
@@ -13,7 +12,7 @@ const recuperarCarrito = () => {
 
 export const carritoFrutas = recuperarCarrito();
 
-function agregarAlCarrito(frutald) {
+function agregarAlCarrito(frutald,productos) {
   if (frutald > 0) {
     const producto = productos.find((p) => p.id === Number(frutald));
     if (producto !== undefined) {
